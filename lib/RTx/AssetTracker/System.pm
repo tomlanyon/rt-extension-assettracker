@@ -128,4 +128,14 @@ for compatibility. dummy method
 sub Load {
     return(1);
 }
+
+=head2 ACLEquivalenceObjects
+
+for compatibility with RT 3.8.x.
+refer to: http://code.google.com/p/asset-tracker-4rt/issues/detail?id=26
+
+=cut
+
+sub ACLEquivalenceObjects {} 
+
 1;
