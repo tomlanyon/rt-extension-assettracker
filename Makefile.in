@@ -22,6 +22,8 @@ INSTALL 		= /bin/sh ./install-sh -c
 RT_PREFIX		= @RT_LOCAL_PATH@
 RT_LOCALHTML		= @RT_LOCALHTML_PATH@
 RT_HOME 		= @RT_HOME_PATH@
+RT_LIB                  = @RT_LIB_PATH@
+RT_LOCALLIB             = @RT_LOCALLIB_PATH@
 
 AT_VERSION_MAJOR        =       @AT_VERSION_MAJOR@
 AT_VERSION_MINOR        =       @AT_VERSION_MINOR@
@@ -36,13 +38,12 @@ CONFIG_FILE	     	= $(RT_PREFIX)/etc/RT_Config.pm
 AT_CONFIG_FILE_PATH	= $(RT_PREFIX)/etc/AssetTracker/
 AT_CONFIG_FILE	     	= $(RT_PREFIX)/etc/AssetTracker/AT_Config.pm
 AT_SITE_CONFIG_FILE     = $(RT_PREFIX)/etc/AssetTracker/AT_SiteConfig.pm
-RT_LIB_PATH	     	= $(RT_PREFIX)/lib
 RT_LEXICON_PATH	     	= $(RT_PREFIX)/po
 MASON_HTML_PATH	 	= $(RT_LOCALHTML)
 RT_BIN_PATH		= $(RT_PREFIX)/bin/
 RT_SBIN_PATH		= $(RT_PREFIX)/sbin/
 
-GETPARAM		=	$(PERL) -I$(RT_LIB_PATH) -I${RT_HOME}/lib -e'use RT; RT::LoadConfig(); print $${$$RT::{$$ARGV[0]}};'
+GETPARAM		=	$(PERL) -I$(RT_LOCALLIB) -I$(RT_LIB) -e'use RT; RT::LoadConfig(); print $${$$RT::{$$ARGV[0]}};'
 
 
 DB_TYPE		=		`${GETPARAM} DatabaseType`
@@ -130,10 +131,10 @@ libs-install: install-lib
 
 install-lib:
 	for dir in `cd ./lib/ && find . -type d -print`; do \
-	  $(INSTALL) -d -m 0755 $(RT_LIB_PATH)/$$dir ; \
+	  $(INSTALL) -d -m 0755 $(RT_LOCALLIB)/$$dir ; \
 	done
 	for f in `cd ./lib/ && find . -type f -name \*.pm -print`; do \
-	  $(INSTALL)  -m 0644 lib/$$f  $(RT_LIB_PATH)/$$f ; \
+	  $(INSTALL)  -m 0644 lib/$$f  $(RT_LOCALLIB)/$$f ; \
 	done
 
 install-lexicon:
@@ -212,7 +213,7 @@ license-tag:
 	perl tools/license_tag
 
 test:
-	$(PERL) -Ilib -I@RT_LIB_PATH@ -I$(RT_HOME)/lib lib/t/00smoke.t
+	$(PERL) -Ilib -I$(RT_LOCALLIB) -I$(RT_LIB) lib/t/00smoke.t
 
 regression-install: config-install
 	$(PERL) -pi -e 's/Set\(\$$DatabaseName.*\);/Set\(\$$DatabaseName, "rt3regression"\);/' $(DESTDIR)/$(CONFIG_FILE)
@@ -221,7 +222,7 @@ regression-install: config-install
 regression: regression-install upgrade regression-reset-db testify-pods fixperms apachectl run-regression
 
 run-regression:
-	prove -I$(RT_LIB_PATH) -I$(RT_HOME)/lib lib/t/setup_regression.t  lib/t/autogen/ lib/t/regression/
+	prove -I$(RT_LOCALLIB) -I$(RT_LIB) lib/t/setup_regression.t  lib/t/autogen/ lib/t/regression/
 
 # {{{ database-installation
 
@@ -255,9 +256,9 @@ apachectl:
 fixperms:
 	# Make the libraries readable
 	#chmod $(RT_READABLE_DIR_MODE) $(DESTDIR)/$(RT_PATH)
-	chown -R $(LIBS_OWNER) $(DESTDIR)/$(RT_LIB_PATH)
-	chgrp -R $(LIBS_GROUP) $(DESTDIR)/$(RT_LIB_PATH)
-	chmod -R  u+rwX,go-w,go+rX      $(DESTDIR)/$(RT_LIB_PATH)
+	chown -R $(LIBS_OWNER) $(DESTDIR)/$(RT_LOCALLIB)
+	chgrp -R $(LIBS_GROUP) $(DESTDIR)/$(RT_LOCALLIB)
+	chmod -R  u+rwX,go-w,go+rX      $(DESTDIR)/$(RT_LOCALLIB)
 
 
 	chmod 0755 $(DESTDIR)/$(AT_ETC_PATH)

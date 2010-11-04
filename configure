@@ -796,6 +796,9 @@ Optional Packages:
                           path to your rt lib dir (default: /opt/rt3/lib)
   --with-rt-local=/path/to/rt/local
                           path to your rt local dir (default: /opt/rt3/local)
+  --with-rt-locallib=/path/to/rt/locallib
+                          path to your rt local lib dir (default:
+                          /opt/rt3/local/lib)
   --with-rt-localhtml=/path/to/rt/localhtml
                           path to your rt local html dir (default:
                           /opt/rt3/local/html)
@@ -1417,6 +1420,15 @@ else
   RT_LOCAL_PATH=/opt/rt3/local
 fi;
 
+
+
+# Check whether --with-rt-locallib or --without-rt-locallib was given.
+if test "${with_rt_locallib+set}" = set; then
+  withval="$with_rt_locallib"
+  RT_LOCALLIB_PATH=$withval
+else
+  RT_LOCALLIB_PATH=/opt/rt3/local/lib
+fi;
 
 
 # Check whether --with-rt-localhtml or --without-rt-localhtml was given.
@@ -2170,6 +2182,7 @@ s,@INSTALL_DATA@,$INSTALL_DATA,;t t
 s,@PERL@,$PERL,;t t
 s,@RT_HOME_PATH@,$RT_HOME_PATH,;t t
 s,@RT_LIB_PATH@,$RT_LIB_PATH,;t t
+s,@RT_LOCALLIB_PATH@,$RT_LOCALLIB_PATH,;t t
 s,@RT_LOCAL_PATH@,$RT_LOCAL_PATH,;t t
 s,@RT_LOCALHTML_PATH@,$RT_LOCALHTML_PATH,;t t
 s,@DB_ADMIN@,$DB_ADMIN,;t t

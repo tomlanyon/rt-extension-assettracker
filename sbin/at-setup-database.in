@@ -49,8 +49,8 @@ use vars qw($PROMPT $VERSION $Handle $Nobody $SystemUser $item);
 use vars
   qw(@Groups @Users @ACL @Types @ScripActions @ScripConditions @Templates @CustomFields @Scrips);
 
-use lib "@RT_LOCAL_PATH@/lib";
-use lib "@RT_HOME_PATH@/lib";
+use lib "@RT_LOCALLIB_PATH@";
+use lib "@RT_LIB_PATH@";
 
 #This drags in  RT's config.pm
 # We do it in a begin block because RT::Handle needs to know the type to do its

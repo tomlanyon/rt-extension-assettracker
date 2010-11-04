@@ -1,7 +1,7 @@
 #!@PERL@
 
+use lib "@RT_LOCALLIB_PATH@";
 use lib "@RT_LIB_PATH@";
-use lib "@RT_LOCAL_PATH@/lib";
 
 use RT;
 use RTx::AssetTracker::Asset;

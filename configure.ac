@@ -48,6 +48,13 @@ AC_ARG_WITH(rt-local,
             RT_LOCAL_PATH=/opt/rt3/local)
 AC_SUBST(RT_LOCAL_PATH)
 
+AC_ARG_WITH(rt-locallib,
+            AC_HELP_STRING([--with-rt-locallib=/path/to/rt/locallib],
+                           [path to your rt local lib dir (default: /opt/rt3/local/lib)]),
+            RT_LOCALLIB_PATH=$withval,
+            RT_LOCALLIB_PATH=/opt/rt3/local/lib)
+AC_SUBST(RT_LOCALLIB_PATH)
+
 AC_ARG_WITH(rt-localhtml,
             AC_HELP_STRING([--with-rt-localhtml=/path/to/rt/localhtml],
                            [path to your rt local html dir (default: /opt/rt3/local/html)]),
